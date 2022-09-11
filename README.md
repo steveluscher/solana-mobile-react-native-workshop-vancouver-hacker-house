@@ -1,5 +1,7 @@
 # React Native Workshop – Solana Hacker House Vancouver
 
+<img align="right" width="280" alt="QR code link to this repository" src="https://user-images.githubusercontent.com/13243/189549983-32846bb5-751e-4c8f-9cc9-42196e00992b.png">
+
 We're going to build an app that you can use to send tokens from your wallet to another person's wallet, on devnet.
 
 You will learn how to:
