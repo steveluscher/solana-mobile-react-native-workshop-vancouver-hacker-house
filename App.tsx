@@ -46,7 +46,7 @@ const App = () => {
   } | null>(null);
   const [currentAccountBalance, setCurrentAccountBalance] = useState(0);
   async function refreshBalance(accountPubkey: PublicKey) {
-    const connection = new Connection(clusterApiUrl('devnet'));
+    const connection = new Connection(clusterApiUrl('testnet'));
     setCurrentAccountBalance(
       await connection.getBalance(accountPubkey, 'processed'),
     );
@@ -76,7 +76,7 @@ const App = () => {
   const handleConnectPress = useCallback(() => {
     transact(async wallet => {
       const {accounts, auth_token} = await wallet.authorize({
-        cluster: 'devnet',
+        cluster: 'testnet',
         identity: {
           name: 'My amazing app',
         },
@@ -118,7 +118,7 @@ const App = () => {
         console.error(e.message);
         setCurrentAccount(null);
       }
-      const connection = new Connection(clusterApiUrl('devnet'));
+      const connection = new Connection(clusterApiUrl('testnet'));
       const latestBlockhash = await connection.getLatestBlockhash('processed');
       const sendTokensTransaction = new Transaction({
         feePayer: currentAccount.pubkey,
@@ -137,7 +137,9 @@ const App = () => {
         transactions: [sendTokensTransaction],
       });
       await connection.confirmTransaction(signature, 'processed');
-      console.log(`https://explorer.solana.com/tx/${signature}?cluster=devnet`);
+      console.log(
+        `https://explorer.solana.com/tx/${signature}?cluster=testnet`,
+      );
       refreshBalance(currentAccount.pubkey);
     });
   }, [currentAccount, recipientAddress, transferAmount]);
@@ -145,9 +147,9 @@ const App = () => {
   // Pressing the airdrop button requests an airdrop for the currently
   // authorized wallet, then updates the balance.
   const handleAirdropPress = useCallback(async () => {
-    const connection = new Connection(clusterApiUrl('devnet'));
+    const connection = new Connection(clusterApiUrl('testnet'));
     await connection.confirmTransaction(
-      await connection.requestAirdrop(currentAccount!.pubkey, 2 * 10 ** 9),
+      await connection.requestAirdrop(currentAccount!.pubkey, 1 * 10 ** 9),
       'processed',
     );
     refreshBalance(currentAccount!.pubkey);
